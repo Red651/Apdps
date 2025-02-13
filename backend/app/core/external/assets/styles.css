@@ -1,0 +1,22 @@
+.attribute_table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 5px;
+    }
+  
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  }
+
+.table-container {
+    max-height: 200px; /* Set the desired height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: add a border around the table */
+}
+  

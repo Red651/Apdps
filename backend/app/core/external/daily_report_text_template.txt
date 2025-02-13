@@ -1,0 +1,43 @@
+${date}
+
+---------------------------------------------------------
+
+Departemen Operasi Pengeboran
+
+Pengeboran Eksplorasi
+Rencana WP&B ${year}: ${rencana_eksplorasi} sumur
+Realisasi Tajak ${month}: ${realisasi_eksplorasi_bulan} (${change_eksplorasi_bulan}) sumur
+Realisasi kumulatif YTD: ${realisasi_eksplorasi_kumulatif} sumur
+
+Status Operasional Drilling: ${eksplorasi_beroperasi} Sumur
+
+Isu:
+${isu_eksplorasi}
+
+Pengeboran Eksploitasi
+Rencana WP&B ${year}: ${rencana_eksploitasi} sumur
+Realisasi ${month}: ${realisasi_eksploitasi_bulan} (${change_eksploitasi_bulan}) sumur
+Kumulatif tajak YTD: ${realisasi_eksploitasi_kumulatif} sumur
+
+Sumur Operasional: ${eksploitasi_beroperasi} sumur 
+Sumur Selesai: ${eksploitasi_selesai} sumur
+
+Isu:
+${isu_eksploitasi}
+
+Departemen KUPS:
+
+Kerja Ulang : 
+Rencana ${year}: ${rencana_kerja_ulang} sumur
+Rencana ${month}: ${rencana_kerja_ulang_bulan} sumur
+Realisasi ${month}: ${realisasi_kerja_ulang_bulan} (${change_kerja_ulang_bulan}) sumur
+Realisasi kumulatif: ${realisasi_kerja_ulang_kumulatif} sumur
+
+Perawatan Sumur : 
+Rencana ${year} : ${rencana_perawatan} sumur
+Rencana ${month}: ${rencana_perawatan_bulan} sumur
+Realisasi ${month}: ${realisasi_perawatan_bulan} (${change_perawatan_bulan}) sumur
+Realisasi kumulatif: ${realisasi_perawatan_kumulatif} sumur
+
+Isu:
+${isu_kups}
