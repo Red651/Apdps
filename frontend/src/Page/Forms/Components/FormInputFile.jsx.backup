@@ -1,0 +1,241 @@
+import React, { useRef, useState, useEffect } from "react";
+import { 
+  Box,
+  Button, 
+  IconButton,
+  FormControl, 
+  FormLabel, 
+  Input, 
+  Text, 
+  Flex,
+  VStack,
+  HStack,
+  Icon,
+  useColorModeValue,
+  useToast
+} from "@chakra-ui/react";
+import { 
+  IconUpload, 
+  IconPdf, 
+  IconFileSpreadsheet, 
+  IconFileText, 
+  IconFile,
+  IconX,
+  IconDownload,
+  IconTrash
+} from "@tabler/icons-react";
+const FormInputFile = ({
+  label = "Upload File",
+  acceptedFormats = ".csv,.xlsx,.xls",
+  onFileSelect,
+  onClearFile, // Prop untuk menerima fungsi clear
+  isLoading = false,
+  existingFile = null,
+  onDownload,
+  onDelete,
+  isDisableClear = false,
+}) => {
+  const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const toast = useToast();
+  // Efek untuk mengatur file yang sudah ada
+  useEffect(() => {
+    if (existingFile) {
+      setSelectedFile({
+        name: existingFile.filename,
+        filename : existingFile.filename,
+        size: existingFile.size || 0,
+        id: existingFile.file_id
+      });
+    }
+  }, [existingFile]);
+  // Fungsi untuk mendapatkan ikon file berdasarkan ekstensi
+  const getFileIcon = (filename) => {
+    const extension = filename?.split('.').pop().toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return IconPdf;
+      case 'xlsx':
+      case 'xls':
+      case 'csv':
+        return IconFileSpreadsheet;
+      case 'doc':
+      case 'docx':
+        return IconFileText;
+      default:
+        return IconFile;
+    }
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+     
+    if (file) {
+      setSelectedFile(file);
+      onFileSelect(file);
+    }
+  };
+  const handleButtonClick = () => {
+    // Reset input file sebelum membuka dialog pemilihan file
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    fileInputRef.current.click();
+  };
+  const handleClearFile = () => {
+    // Reset selectedFile
+    setSelectedFile(null);
+    // Reset input file
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    // Panggil fungsi clear yang diberikan oleh komponen induk
+    if (onClearFile) {
+      onClearFile(() => {
+        // Fungsi reset yang akan dipanggil oleh komponen induk
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        setSelectedFile(null);
+      });
+    }
+  };
+  // Handler untuk download file
+  const handleDownload = () => {
+    if (onDownload) {
+      onDownload(selectedFile);
+    } else {
+      toast({
+        title: "Download Failed",
+        description: "Download method not provided",
+        status: "error",
+        duration: 3000,
+      });
+    }
+  };
+  // Handler untuk delete file
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(selectedFile);
+    } else {
+      toast({
+        title: "Delete Failed",
+        description: "Delete method not provided",
+        status: "error",
+        duration: 3000,
+      });
+    }
+  };
+  const bgColor = useColorModeValue('gray.50', 'gray.700');
+  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  return (
+    <FormControl 
+      w="full" 
+      bg={bgColor} 
+      p={4} 
+      borderRadius="xl" 
+      border="2px dashed" 
+      borderColor={borderColor}
+      transition="all 0.3s"
+      _hover={{
+        borderColor: 'blue.100',
+        bg: useColorModeValue('#f1f8ff', 'blue.900')
+      }}
+    >
+      <VStack spacing={4} w="full">
+        <Flex w="full" justifyContent="space-between" alignItems="center">
+          <FormLabel m={0}>
+            {label}
+          </FormLabel>
+          
+          <Input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept={acceptedFormats}
+            hidden
+          />
+          
+          <HStack spacing={2}>
+            <Button
+              onClick={handleButtonClick}
+              variant="outline"
+              borderRadius={"full"}
+              colorScheme="blue"
+              isLoading={isLoading}
+              size="sm"
+              leftIcon={<Icon as={IconUpload} />}
+            >
+              Choose File
+            </Button>
+            
+            {selectedFile && !isDisableClear && (
+              <Button
+                size="sm"
+                colorScheme="red"
+                variant="solid"
+                borderRadius={"full"}
+                onClick={handleClearFile}
+                leftIcon={<Icon as={IconX} />}
+              >
+                Clear
+              </Button>
+            )}
+          </HStack>
+        </Flex>
+        
+        {selectedFile && (
+          <Flex 
+            w="full" 
+            bg="#dbecff" 
+            p={3} 
+            borderRadius="md" 
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <HStack spacing={3} flex={1}>
+              <Icon 
+                as={getFileIcon(selectedFile.name)} 
+                w={6} 
+                h={6} 
+                color="blue.500" 
+              />
+              <VStack align="start" spacing={0} flex={1}>
+                <Text fontWeight="semibold" fontSize="sm" noOfLines={1}>
+                  {selectedFile.name}
+                </Text>
+                <Text fontSize="xs" color="gray.500">
+                  {(selectedFile.size / 1024).toFixed(2)} KB
+                </Text>
+              </VStack>
+            </HStack>
+            
+            {/* Tombol Aksi Tambahan */}
+            <HStack spacing={2}>
+              {existingFile && (
+                <>
+                  <IconButton 
+                    size="sm" 
+                    colorScheme="green" 
+                    variant="solid"
+                    borderRadius="full"
+                    onClick={handleDownload}
+                    icon={<Icon as={IconDownload} />}
+                  />
+                  <IconButton 
+                    size="sm" 
+                    colorScheme="red" 
+                    variant="solid"
+                    borderRadius="full"
+                    onClick={handleDelete}
+                    icon={<Icon as={IconTrash} />}
+                  />
+                </>
+              )}
+            </HStack>
+          </Flex>
+        )}
+      </VStack>
+    </FormControl>
+  );
+};
+export default FormInputFile;

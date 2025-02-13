@@ -1,0 +1,5 @@
+.ag-header-cell .ag-header-cell-label {
+    white-space: normal; /* Memungkinkan teks untuk membungkus */
+    word-wrap: break-word; /* Memecah kata jika terlalu panjang */
+    text-align: left; /* Mengatur teks agar rata tengah */
+}

@@ -1,0 +1,218 @@
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  useDisclosure,
+  Icon,
+  useToast,
+  IconButton,
+  Tooltip,
+  Skeleton,
+} from "@chakra-ui/react";
+import {
+  IconCheck,
+  IconSettings2,
+  IconChecks,
+  IconClockHour10,
+  IconEye,
+  IconCoin,
+} from "@tabler/icons-react";
+import PerhitunganCard from "../../PageKKKS/Components/Card/CardPerhitunganBox";
+import Footer from "../../PageKKKS/Components/Card/Footer";
+import PaginatedTable from "../../Components/Card/PaginationTable";
+import { getTableKKKS, getCountDataSummary } from "../../API/APIKKKS";
+import { patchStatusOperationToOperate } from "../../API/PostKkks";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import BreadcrumbCard from "../Card/Breadcrumb";
+
+const CloseOutExplorationKKKS = () => {
+  const toast = useToast();
+  const [tableData, setTableData] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const [countDataSummary, setCountDataSummary] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+  const kkks_id = JSON.parse(localStorage.getItem("user")).kkks_id;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      const fetchData = async () => {
+        const data = await getTableKKKS(kkks_id, "workover", "co");
+        setTableData(data.data);
+      };
+
+      const fetchCountData = async () => {
+        const data = await getCountDataSummary(kkks_id, "workover", "co");
+        setCountDataSummary(data.data);
+      };
+
+      fetchData();
+      fetchCountData();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  }, [kkks_id]);
+
+  const OperateJob = async () => {
+    try {
+      const response = await patchStatusOperationToOperate(selectedId);
+      if (response.status === 200) {
+        toast({
+          title: response.data.message,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        window.location.reload();
+        onClose();
+        return response;
+      }
+    } catch (error) {}
+  };
+
+  return (
+    <Flex gap={4} my={6} direction={"column"}>
+      <Text
+        fontSize={"2em"}
+        fontWeight={"bold"}
+        color={"gray.600"}
+        fontFamily={"Mulish"}
+      >
+        Close Out Work Over
+      </Text>
+
+      <BreadcrumbCard />
+
+      <Flex gap={6}>
+        <PerhitunganCard
+          number={countDataSummary?.selesai_p3}
+          icon={IconChecks}
+          bgIcon="#5856D6"
+          iconColor="#EBF5FF"
+          label={"selesai p3"}
+          subLabel="Pekerjaan Dikembalikan"
+        />
+
+        <PerhitunganCard
+          number={countDataSummary?.diajukan}
+          icon={IconSettings2}
+          label={"diajukan"}
+          subLabel="Pekerjaan Diajukan"
+          bgIcon="#E1EFFE"
+          iconColor="#3F83F8"
+        />
+        <PerhitunganCard
+          number={countDataSummary?.diproses}
+          icon={IconClockHour10}
+          label={"diproses"}
+          subLabel="Pekerjaan Persiapan"
+          bgIcon="#FFE57F"
+          iconColor="#B79200"
+        />
+        <PerhitunganCard
+          number={countDataSummary?.disetujui}
+          icon={IconCheck}
+          bgIcon="green.100"
+          iconColor="green.500"
+          label={"disetujui"}
+          subLabel="Pekerjaan Disetujui"
+        />
+      </Flex>
+
+      <Box>
+        <PaginatedTable
+          jobs={tableData || []}
+          title={"Pekerjaan Disetujui dan Beroperasi"}
+          subtitle={"Pekerjaan yang telah disetujui dan yang beroperasi"}
+          loading={loading}
+          excludeColumns={["job_id", "KKKS"]}
+          actionHeader={null}
+          actionButtons={(jobs) => (
+            <Flex gap={2}>
+              {jobs.STATUS === "PROPOSED" ? (
+                <Button
+                  as={Link}
+                  colorScheme="green"
+                  size="sm"
+                  to={`/workover/closeout/form/${jobs.job_id}/`}
+                  rounded="full"
+                >
+                  Propose
+                </Button>
+              ) : jobs.STATUS === "APPROVED" ? (
+                <Tooltip label="View">
+                  <IconButton
+                    colorScheme="blue"
+                    size="sm"
+                    icon={<Icon as={IconEye} />}
+                    onClick={() => {
+                      setSelectedId(jobs.job_id);
+                      onOpen();
+                    }}
+                    rounded="full"
+                    aria-label="View"
+                  />
+                </Tooltip>
+              ) : jobs.STATUS === "FINISHED P3" ? (
+                <Tooltip label="Update">
+                  <IconButton
+                    colorScheme="green"
+                    size="sm"
+                    icon={<Icon as={IconCoin} />}
+                    rounded="full"
+                    aria-label="Update"
+                  />
+                </Tooltip>
+              ) : null}
+            </Flex>
+          )}
+        />
+      </Box>
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Operasi Konfirmasi
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Apakah Anda yakin ingin mengubah status pekerjaan ini menjadi
+              "OPERATING"?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="blue" onClick={OperateJob} ml={3}>
+                Operate
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
+      <Footer />
+    </Flex>
+  );
+};
+
+export default CloseOutExplorationKKKS;

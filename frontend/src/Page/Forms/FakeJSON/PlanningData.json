@@ -1,0 +1,217 @@
+{
+    "area_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "field_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "contract_type": "COST-RECOVERY",
+    "afe_number": "AFE-123456",
+    "wpb_year": 2024,
+    "job_plan": {
+      "wrm_pembebasan_lahan": true,
+      "wrm_ippkh": true,
+      "wrm_ukl_upl": true,
+      "wrm_amdal": true,
+      "wrm_pengadaan_rig": true,
+      "wrm_pengadaan_drilling_services": true,
+      "wrm_pengadaan_lli": true,
+      "wrm_persiapan_lokasi": true,
+      "wrm_internal_kkks": true,
+      "wrm_evaluasi_subsurface": true,
+      "start_date": "2024-10-26",
+      "end_date": "2024-11-02",
+      "total_budget": 1000000,
+      "job_operation_days": [
+        {
+          "unit_type": "METRICS",
+          "phase": "Drilling",
+          "depth_datum": "RT",
+          "depth_in": 2000,
+          "depth_out": 2500,
+          "operation_days": 7
+        }
+      ],
+      "job_hazards": [
+        {
+          "hazard_type": "GAS KICK",
+          "hazard_description": "Kemungkinan gas kick selama pengeboran.",
+          "severity": "LOW",
+          "mitigation": "Monitor tekanan dengan cermat.",
+          "remark": "Perlu penanganan rutin."
+        }
+      ],
+      "job_documents": [
+        {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Drilling_Plan_2024.pdf",
+          "document_type": "Drilling Plan",
+          "remark": "Dokumen perencanaan pengeboran."
+        }
+      ],
+      "job_project_management_team": [
+        {
+          "company": "ABC Drilling Services",
+          "position": "Project Manager",
+          "name": "John Doe"
+        }
+      ],
+      "job_equipments": [
+        {
+          "equipment": "Drill Rig",
+          "vendor": "XYZ Equipment Co."
+        }
+      ],
+      "job_hse_aspect": {
+        "near_miss": 1,
+        "fatality": 0,
+        "spill": 0,
+        "unsafe_condition": 2,
+        "unsafe_action": 1,
+        "man_hour": 1000
+      },
+      "work_breakdown_structure": {
+        "events": [
+          {
+            "event": "Mobilisasi Rig",
+            "start_date": "2024-10-26",
+            "end_date": "2024-10-28",
+            "remarks": "Rig dikirim ke lokasi."
+          }
+        ],
+        "wrm_pembebasan_lahan": {
+          "start_date": "2024-10-26",
+          "end_date": "2024-10-30"
+        },
+        "wrm_ippkh": {
+          "start_date": "2024-10-31",
+          "end_date": "2024-11-02"
+        },
+        "wrm_ukl_upl": {
+          "start_date": "2024-10-29",
+          "end_date": "2024-10-31"
+        },
+        "wrm_amdal": {
+          "start_date": "2024-10-28",
+          "end_date": "2024-10-30"
+        },
+        "wrm_pengadaan_rig": {
+          "start_date": "2024-10-26",
+          "end_date": "2024-10-26"
+        },
+        "wrm_pengadaan_drilling_services": {
+          "start_date": "2024-10-26",
+          "end_date": "2024-10-26"
+        },
+        "wrm_pengadaan_lli": {
+          "start_date": "2024-10-26",
+          "end_date": "2024-10-26"
+        },
+        "wrm_persiapan_lokasi": {
+          "start_date": "2024-10-26",
+          "end_date": "2024-10-27"
+        },
+        "wrm_internal_kkks": {
+          "start_date": "2024-10-30",
+          "end_date": "2024-11-01"
+        },
+        "wrm_evaluasi_subsurface": {
+          "start_date": "2024-10-31",
+          "end_date": "2024-11-02"
+        }
+      },
+      "rig_name": "Rig_Alpha",
+      "rig_type": "Land",
+      "rig_horse_power": 500,
+      "well": {
+        "well_trajectory": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Well_Trajectory.pdf"
+        },
+        "well_ppfg": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Well_PPFG.pdf"
+        },
+        "well_materials": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Well_Materials.pdf"
+        },
+        "well_casing": [
+          {
+            "unit_type": "METRICS",
+            "casing_type": "Conductor Pipe",
+            "depth_datum": "RT",
+            "depth": 0,
+            "length": 20,
+            "hole_diameter": 30,
+            "casing_outer_diameter": 10,
+            "casing_inner_diameter": 8,
+            "casing_grade": "J55",
+            "casing_weight": 300,
+            "connection": "LTC",
+            "description": "Conductor pipe untuk stabilitas awal."
+          }
+        ],
+        "well_schematic": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Well_Schematic.pdf"
+        },
+        "well_stratigraphy": [
+          {
+            "unit_type": "METRICS",
+            "depth_datum": "RT",
+            "top_depth": 0,
+            "bottom_depth": 2000,
+            "formation_name": "Sandstone",
+            "lithology": "Sandy"
+          }
+        ],
+        "unit_type": "METRICS",
+        "well_type": "DELINEATION",
+        "well_profile_type": "DIRECTIONAL",
+        "well_directional_type": "HORIZONTAL",
+        "hydrocarbon_target": "OIL",
+        "environment_type": "MARINE",
+        "surface_longitude": 107.0,
+        "surface_latitude": -6.0,
+        "bottom_hole_longitude": 107.1,
+        "bottom_hole_latitude": -6.1,
+        "maximum_inclination": 90,
+        "azimuth": 180,
+        "parent_well_id": 0,
+        "spud_date": "2024-10-26",
+        "final_drill_date": "2024-11-02",
+        "completion_date": "2024-11-05",
+        "rotary_table_elev": 5,
+        "kb_elev": 5,
+        "derrick_floor_elev": 10,
+        "ground_elev": 0,
+        "mean_sea_level": 0,
+        "depth_datum": "RT",
+        "kick_off_point": 500,
+        "maximum_tvd": 2000,
+        "final_md": 2500,
+        "uwi": "UID-001",
+        "well_name": "Well_Alpha",
+        "alias_long_name": "Alpha Well",
+        "seismic_line": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "seismic_line_name": "Seismic_Line_1",
+          "shot_point_number": 100
+        },
+        "well_log_plan": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Well_Log_Plan.pdf"
+        },
+        "well_drilling_parameter_plan": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Drilling_Parameter_Plan.pdf"
+        },
+        "well_core_plan": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Core_Plan.pdf"
+        },
+        "well_test_plan": {
+          "file_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "filename": "Test_Plan.pdf"
+        }
+      }
+    }
+  }
+  
